@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 hashfunction AES; //TODO: figure out how to make AES "Function" instead of "hashfunction"
 usertype String;
 const EmptyString: String;
+=======
+Function AES;
+>>>>>>> 6c07e2b63d5622194cede22c8f30c1b8e81595bb
 
 protocol APKES(U,V)
 {
