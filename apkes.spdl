@@ -1,0 +1,23 @@
+protocol APKES(U,V)
+{
+	role U
+	{
+		fresh Ru: Nonce; //Use "fresh" for randomly-generated values
+                var Rv: Nonce; //Why "Nonce"?
+
+		send_1(U,V, {Ru} );
+                recv_1(U,V, {Ru,Rv}sk(V,U) );
+                send_1(U,V, {}sk(U,V) ); //How to convey AES encryption for last key in last step of protocol?
+	}
+
+	role V
+	{
+		fresh Rv: Nonce;
+                var Ru: Nonce;
+
+		recv_1(U,V, {Ru} );
+                send_1(U,V, {Ru,Rv}sk(V,U) );
+                recv_1(U,V, {}sk(U,V) );
+	}
+}
+
