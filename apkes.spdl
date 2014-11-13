@@ -1,5 +1,5 @@
-usertype String;
-const EmptyString: String;
+usertype T;
+const Empty: T;
 
 protocol APKES(U,V)
 {
@@ -10,7 +10,7 @@ protocol APKES(U,V)
 
 		send_1(U, V, Ru); //"HELLO" msg
 		recv_2(V, U, {Ru,Rv}sk(V) ); //"HELLOACK" msg
-		send_3(U,V, {EmptyString}sk(V) ); //"ACK" msg
+		send_3(U,V, {Empty}sk(V) ); //"ACK" msg
 
 
 		# secret claim
@@ -25,7 +25,7 @@ protocol APKES(U,V)
 
 		recv_1(U,V, Ru); //"HELLO" msg
 		send_2(V, U, {Ru, Rv}sk(V) ); //"HELLOACK" msg
-		recv_3(U,V, {EmptyString}sk(V) ); //"ACK" msg
+		recv_3(U,V, {Empty}sk(V) ); //"ACK" msg
 
 		# secret claim
 		# claim_i2(V,Niagree);
