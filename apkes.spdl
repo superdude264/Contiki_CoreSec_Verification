@@ -6,8 +6,8 @@ protocol APKES(U,V)
 {
 	role U
 	{
-		fresh Ru: Nonce; # Use "fresh" for randomly-generated values
-		var Rv: Nonce; # Why "Nonce"?
+		fresh Ru: Nonce; //Use "fresh" for randomly-generated values
+		var Rv: Nonce; //Why "Nonce"?
 
 		send_1(U,V, Ru); # "HELLO" msg
 		recv_2(V,U, {Ru,Rv}sk(V) ); # "HELLOACK" msg
