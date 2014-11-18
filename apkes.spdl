@@ -1,6 +1,6 @@
-hashfunction AES; # TODO: figure out how to make AES "Function" instead of "hashfunction"
-usertype String;
-const EmptyString: String;
+const AES: Function; # TODO: figure out how to make AES "Function" instead of "hashfunction"
+usertype T;
+const EmptyString: T;
 
 protocol APKES(U,V)
 {
@@ -11,9 +11,9 @@ protocol APKES(U,V)
 
 		send_1(U,V, Ru); # "HELLO" msg
 		recv_2(V,U, {Ru,Rv}sk(V) ); # "HELLOACK" msg
-		send_3(U,V, {EmptyString}AES(U, V, Ru,Rv) ); # "ACK" msg
+		send_3(U,V, {EmptyString, AES(U, V, Ru,Rv)}sk(U) ); # "ACK" msg
 
-		claim_i1(U,Secret, Ru); # Figure out how to pass in {Ru,Rv} or equivalent as parameter
+		claim_i1(U,Secret,sk(U)); # Figure out how to express secrecy of pairwise key
 		claim_i2(U,Niagree);
 		claim_i3(U,Nisynch);
 	}
@@ -25,9 +25,9 @@ protocol APKES(U,V)
 
 		recv_1(U,V, Ru); # "HELLO" msg
 		send_2(V,U, {Ru,Rv}sk(V) ); # "HELLOACK" msg
-		recv_3(U,V, {EmptyString}AES(U, V, Ru,Rv) ); # "ACK" msg
+		recv_3(U,V, {EmptyString, AES(U, V, Ru,Rv)}sk(U) ); # "ACK" msg
 
-		claim_i1(V,Secret,Rv);
+		claim_i1(V,Secret,sk(V)); # Figure out how to express secrecy of pairwise key
 		claim_i2(V,Niagree);
 		claim_i3(V,Nisynch);
 	}
