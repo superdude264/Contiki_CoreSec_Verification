@@ -11,7 +11,7 @@ protocol APKES(U,V)
 
 		send_1(U,V, Ru); # "HELLO" msg
 		recv_2(V,U, {Ru,Rv}sk(V) ); # "HELLOACK" msg
-		send_3(U,V, {Empty, AES(U, V, Ru,Rv)}sk(U) ); # "ACK" msg
+		send_3(U,V, {AES(U, V, Ru,Rv)}sk(U) ); # "ACK" msg
 
 		claim_i1(U,Secret,sk(U)); # Figure out how to express secrecy of pairwise key
 		claim_i2(U,Niagree);
@@ -25,7 +25,7 @@ protocol APKES(U,V)
 
 		recv_1(U,V, Ru); # "HELLO" msg
 		send_2(V,U, {Ru,Rv}sk(V) ); # "HELLOACK" msg
-		recv_3(U,V, {Empty, AES(U, V, Ru,Rv)}sk(U) ); # "ACK" msg
+		recv_3(U,V, {AES(U, V, Ru,Rv)}sk(U) ); # "ACK" msg
 
 		claim_i1(V,Secret,sk(V)); # Figure out how to express secrecy of pairwise key
 		claim_i2(V,Niagree);
