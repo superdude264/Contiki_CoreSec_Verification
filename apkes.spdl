@@ -17,11 +17,12 @@ protocol APKES(U,V)
 		recv_2(V,U, {Ru,Rv}sk(V) ); 
 
 		# ACK
-		send_3(U,V, {Empty}sk( AES(sk(V), Ru, Rv)) ); 
+		macro pairwiseKey = AES(sk(V), Ru, Rv);
+		send_3(U,V, {Empty}sk(pairwiseKey) ); 
 
 		# Claims
 		claim_i1(U,Secret,sk(U));
-		claim_i2(U, Secret, AES(sk(V), Ru, Rv));
+		claim_i2(U, Secret, pairwiseKey);
 		claim_i3(U,Niagree);
 		claim_i4(U,Nisynch);
 	}
@@ -38,11 +39,12 @@ protocol APKES(U,V)
 		send_2(V,U, {Ru,Rv}sk(V) );
 
 		# ACK
-		recv_3(U,V, {Empty}sk( AES(sk(V), Ru, Rv)) ); 
+		macro pairwiseKey = AES(sk(V), Ru, Rv);
+		recv_3(U,V, {Empty}sk(pairwiseKey) ); 
 
 		# Claims
 		claim_i1(V,Secret,sk(V));
-		claim_i2(V, Secret, AES(sk(V), Ru, Rv));
+		claim_i2(V, Secret, pairwiseKey);
 		claim_i3(V,Niagree);
 		claim_i4(V,Nisynch);
 	}
