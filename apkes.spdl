@@ -8,12 +8,12 @@ protocol APKES(U,V)
 	{
 		# Use "fresh" for randomly-generated values
 		fresh Ru: Nonce; 
-		var Rv: Nonce;
-
+		
 		# HELLO
 		send_1(U,V, Ru); 
 
 		# HELLOACK
+		var Rv: Nonce;
 		recv_2(V,U, {Ru,Rv}sk(V) ); 
 
 		# ACK
@@ -29,10 +29,10 @@ protocol APKES(U,V)
 
 	role V
 	{
-		var Ru: Nonce;
 		fresh Rv: Nonce;
 		
 		# HELLO msg
+		var Ru: Nonce;
 		recv_1(U,V, Ru);
 
 		# HELLOACK
