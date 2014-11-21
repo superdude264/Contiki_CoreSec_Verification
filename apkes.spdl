@@ -1,4 +1,4 @@
-const AES: Function;
+const AES: Function; # TODO: figure out how to make AES "Function" instead of "hashfunction"
 usertype T;
 const Empty: T;
 
@@ -6,14 +6,15 @@ protocol APKES(U,V)
 {
     role U
     {
-        fresh Ru: Nonce;
-        var Rv: Nonce;
+        fresh Ru: Nonce; //Use "fresh" for randomly-generated values
+        var Rv: Nonce; //Why "Nonce"?
 
         send_1(U,V, Ru); # "HELLO" msg
         recv_2(V,U, {Ru,Rv}sk(V) ); # "HELLOACK" msg
-        send_3(U,V, {Empty}sk(AES(sk(V), Ru, Rv)) ); # "ACK" msg
+        send_3(U,V, {Empty}sk( AES(sk(V), Ru, Rv)) ); # "ACK" msg
 
-        # claim_i1(U,Secret,sk(U)); # Figure out how to express secrecy of pairwise key
+        claim_i1(U,Secret,sk(U)); # Figure out how to express secrecy of pairwise key
+        claim_i4(U, Secret, AES(sk(V), Ru, Rv));
         claim_i2(U,Niagree);
         claim_i3(U,Nisynch);
     }
@@ -22,12 +23,14 @@ protocol APKES(U,V)
     {
         fresh Rv: Nonce;
         var Ru: Nonce;
+        var PairwiseKey;
 
         recv_1(U,V, Ru); # "HELLO" msg
         send_2(V,U, {Ru,Rv}sk(V) ); # "HELLOACK" msg
-        recv_3(U,V, {Empty}sk(AES(sk(V), Ru, Rv)) ); # "ACK" msg
+        recv_3(U,V, {Empty}sk( AES(sk(V), Ru, Rv)) ); # "ACK" msg
 
-        # claim_i1(V,Secret,sk(V)); # Figure out how to express secrecy of pairwise key
+        claim_i1(V,Secret,sk(V)); # Figure out how to express secrecy of pairwise key
+        claim_i4(V, Secret, AES(sk(V), Ru, Rv));
         claim_i2(V,Niagree);
         claim_i3(V,Nisynch);
     }
