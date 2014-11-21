@@ -21,9 +21,9 @@ protocol APKES(U,V)
         send_3(U,V, {Empty}pairwiseKey ); 
 
         # Claims
-        claim_i1(U,Secret,k(V, U));
+        claim_i1(U,Secret,k(V, U)); # Need this?
         claim_i2(U,Secret,pairwiseKey);
-        claim_i3(U,Niagree);
+        claim_i3(U,Niagree); # Need both agree & synch?
         claim_i4(U,Nisynch);
     }
 
@@ -43,9 +43,9 @@ protocol APKES(U,V)
         recv_3(U,V, {Empty}pairwiseKey ); 
 
         # Claims
-        claim_i1(V,Secret,k(V, U));
+        claim_i1(V,Secret,k(V, U)); # Need this?
         claim_i2(V,Secret,pairwiseKey);
-        claim_i3(V,Niagree);
+        claim_i3(V,Niagree); # Need both agree & synch?
         claim_i4(V,Nisynch);
     }
 }
