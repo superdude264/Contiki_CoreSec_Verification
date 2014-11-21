@@ -1,4 +1,4 @@
-const AES: Function; # TODO: figure out how to make AES "Function" instead of "hashfunction"
+const AES: Function;
 usertype T;
 const Empty: T;
 
@@ -6,32 +6,44 @@ protocol APKES(U,V)
 {
 	role U
 	{
-		fresh Ru: Nonce; //Use "fresh" for randomly-generated values
-		var Rv: Nonce; //Why "Nonce"?
+		# Use "fresh" for randomly-generated values
+		fresh Ru: Nonce; 
+		var Rv: Nonce;
 
-		send_1(U,V, Ru); # "HELLO" msg
-		recv_2(V,U, {Ru,Rv}sk(V) ); # "HELLOACK" msg
-		send_3(U,V, {Empty}sk( AES(sk(V), Ru, Rv)) ); # "ACK" msg
+		# HELLO
+		send_1(U,V, Ru); 
 
-		claim_i1(U,Secret,sk(U)); # Figure out how to express secrecy of pairwise key
-		claim_i4(U, Secret, AES(sk(V), Ru, Rv));
-		claim_i2(U,Niagree);
-		claim_i3(U,Nisynch);
+		# HELLOACK
+		recv_2(V,U, {Ru,Rv}sk(V) ); 
+
+		# ACK
+		send_3(U,V, {Empty}sk( AES(sk(V), Ru, Rv)) ); 
+
+		# Claims
+		claim_i1(U,Secret,sk(U));
+		claim_i2(U, Secret, AES(sk(V), Ru, Rv));
+		claim_i3(U,Niagree);
+		claim_i4(U,Nisynch);
 	}
 
 	role V
 	{
-		fresh Rv: Nonce;
 		var Ru: Nonce;
-		var PairwiseKey;
+		fresh Rv: Nonce;
+		
+		# HELLO msg
+		recv_1(U,V, Ru);
 
-		recv_1(U,V, Ru); # "HELLO" msg
-		send_2(V,U, {Ru,Rv}sk(V) ); # "HELLOACK" msg
-		recv_3(U,V, {Empty}sk( AES(sk(V), Ru, Rv)) ); # "ACK" msg
+		# HELLOACK
+		send_2(V,U, {Ru,Rv}sk(V) );
 
-		claim_i1(V,Secret,sk(V)); # Figure out how to express secrecy of pairwise key
-		claim_i4(V, Secret, AES(sk(V), Ru, Rv));
-		claim_i2(V,Niagree);
-		claim_i3(V,Nisynch);
+		# ACK
+		recv_3(U,V, {Empty}sk( AES(sk(V), Ru, Rv)) ); 
+
+		# Claims
+		claim_i1(V,Secret,sk(V));
+		claim_i2(V, Secret, AES(sk(V), Ru, Rv));
+		claim_i3(V,Niagree);
+		claim_i4(V,Nisynch);
 	}
 }
