@@ -6,6 +6,7 @@ protocol LEAP(U,V)
     {
         fresh IDu: Nonce; 
         var IDv: Nonce;
+        var Kv: Nonce;
 
         # HELLO
         send_1(U,V, IDu);
@@ -15,7 +16,7 @@ protocol LEAP(U,V)
         recv_2(V,U, {Kv,concatenation}sk(V) );
 
         # Claims
-        # claim_i1(U,Secret,k(V, U)); # Need this?
+        # claim_i1(U,Secret,kV); # Need this?
         # claim_i2(U,Secret,pairwiseKey);
         claim_i3(U,Niagree); # Need both agree & synch?
         claim_i4(U,Nisynch);
@@ -25,7 +26,8 @@ protocol LEAP(U,V)
     {
         var IDu: Nonce; 
         fresh IDv: Nonce;
-        
+        fresh Kv: Nonce;
+
         # HELLO msg
         recv_1(U,V, IDu);
 
@@ -34,7 +36,7 @@ protocol LEAP(U,V)
         send_2(V,U, {Kv,concatenation}sk(V) ); 
 
         # Claims
-        # claim_i1(V,Secret,k(V, U)); # Need this?
+        # claim_i1(V,Secret,kV); # Need this?
         # claim_i2(V,Secret,pairwiseKey);
         claim_i3(V,Niagree); # Need both agree & synch?
         claim_i4(V,Nisynch);
