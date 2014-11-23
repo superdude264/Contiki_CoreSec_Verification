@@ -1,6 +1,5 @@
 const AES: Function;
 usertype T;
-const Empty: T;
 const k: Function;
 
 protocol APKES(U,V)
