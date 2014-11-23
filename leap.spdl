@@ -1,0 +1,42 @@
+const concat: Function;
+
+protocol LEAP(U,V)
+{
+    role U
+    {
+        fresh IDu: Nonce; 
+        var IDv: Nonce;
+
+        # HELLO
+        send_1(U,V, IDu);
+
+        # ACK
+        macro concatenation = concat(IDv,IDu);
+        recv_2(V,U, {Kv,concatenation}sk(V) );
+
+        # Claims
+        # claim_i1(U,Secret,k(V, U)); # Need this?
+        # claim_i2(U,Secret,pairwiseKey);
+        claim_i3(U,Niagree); # Need both agree & synch?
+        claim_i4(U,Nisynch);
+    }
+
+    role V
+    {
+        var IDu: Nonce; 
+        fresh IDv: Nonce;
+        
+        # HELLO msg
+        recv_1(U,V, IDu);
+
+        # ACK
+        macro concatenation = concat(IDv,IDu);
+        send_2(V,U, {Kv,concatenation}sk(V) ); 
+
+        # Claims
+        # claim_i1(V,Secret,k(V, U)); # Need this?
+        # claim_i2(V,Secret,pairwiseKey);
+        claim_i3(V,Niagree); # Need both agree & synch?
+        claim_i4(V,Nisynch);
+    }
+}
