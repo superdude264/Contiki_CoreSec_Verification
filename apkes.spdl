@@ -1,6 +1,7 @@
 const AES: Function;
 usertype T;
 const Empty: T;
+const k: Function;
 
 protocol APKES(U,V)
 {
@@ -14,11 +15,11 @@ protocol APKES(U,V)
 
         # HELLOACK
         var Rv: Nonce;
-        recv_2(V,U, {Ru,Rv}k(V, U) ); 
+        recv_2(V,U, {Ru,Rv,k(V,U) }sk(V) ); 
 
         # ACK
         macro pairwiseKey = AES(k(V, U), Ru, Rv);
-        send_3(U,V, {Empty}pairwiseKey ); 
+        send_3(U,V, {pairwiseKey}sk(U) ); 
 
         # Claims
         claim_i1(U,Secret,k(V, U)); # Need this?
@@ -36,11 +37,11 @@ protocol APKES(U,V)
         recv_1(U,V, Ru);
 
         # HELLOACK
-        send_2(V,U, {Ru,Rv}k(V, U) );
+        send_2(V,U, {Ru,Rv,k(V, U)}sk(V) );
 
         # ACK
         macro pairwiseKey = AES(k(V, U), Ru, Rv);
-        recv_3(U,V, {Empty}pairwiseKey ); 
+        recv_3(U,V, {pairwiseKey}sk(U) ); 
 
         # Claims
         claim_i1(V,Secret,k(V, U)); # Need this?
