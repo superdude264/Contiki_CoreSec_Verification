@@ -1,7 +1,6 @@
 const AES: Function;
-const concat: Function;
 usertype T;
-secret k: Function;
+const Empty: T;
 
 protocol APKES(U,V)
 {
@@ -9,18 +8,17 @@ protocol APKES(U,V)
     {
         # Use "fresh" for randomly-generated values
         fresh Ru: Nonce; 
-        var Rv: Nonce;
-
+        
         # HELLO
         send_1(U,V, Ru); 
 
         # HELLOACK
-        macro concatenation = concat(Ru,Rv);
-        recv_2(V,U, {k(V,U),concatenation }sk(V) ); 
+        var Rv: Nonce;
+        recv_2(V,U, {Ru,Rv}k(V, U) ); 
 
         # ACK
-        macro pairwiseKey = AES(k(V, U),concatenation);
-        send_3(U,V, {pairwiseKey}sk(U) ); 
+        macro pairwiseKey = AES(k(V, U), Ru, Rv);
+        send_3(U,V, {Empty}pairwiseKey ); 
 
         # Claims
         claim_i1(U,Secret,k(V, U)); # Need this?
@@ -31,19 +29,18 @@ protocol APKES(U,V)
 
     role V
     {
-        var Ru: Nonce;
         fresh Rv: Nonce;
         
         # HELLO msg
+        var Ru: Nonce;
         recv_1(U,V, Ru);
 
         # HELLOACK
-        macro concatenation = concat(Ru,Rv);
-        send_2(V,U, {k(V, U),concatenation }sk(V) );
+        send_2(V,U, {Ru,Rv}k(V, U) );
 
         # ACK
-        macro pairwiseKey = AES(k(V, U), concatenation);
-        recv_3(U,V, {pairwiseKey}sk(U) ); 
+        macro pairwiseKey = AES(k(V, U), Ru, Rv);
+        recv_3(U,V, {Empty}pairwiseKey ); 
 
         # Claims
         claim_i1(V,Secret,k(V, U)); # Need this?
