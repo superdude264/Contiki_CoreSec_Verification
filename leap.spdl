@@ -1,6 +1,6 @@
 const concat: Function;
 const F: Function; # Pseudorandom function family
-const Km; # Assume preloaded into nodes, then deleted from both of them after protocol is over
+secret Km; # Assume preloaded into nodes, then deleted from both of them after protocol is over
 
 # Assume these are known publicly (and hence globally)?
 const IDu: Agent;
@@ -11,7 +11,7 @@ protocol LEAP(U,V)
     role U
     {
         macro Ku = F(Km, IDu);
-        macro Kv = F(Km, IDv); # From V's side, but must keep track of for receive
+        var Kv;
 
         # HELLO
         send_1(U,V, IDu);
